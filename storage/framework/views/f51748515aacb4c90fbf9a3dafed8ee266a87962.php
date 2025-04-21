@@ -1,5 +1,3 @@
-@extends('layouts.app')
-
 <style>
     .title-color{
         color: rgba(74, 27, 244, 0.8);
@@ -10,9 +8,9 @@
     }
 </style>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="container py-4">
-    @include('includes.messages')
+    <?php echo $__env->make('includes.messages', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     
     <!-- AutoBid Settings Section -->
     <div class="row justify-content-center">
@@ -20,23 +18,23 @@
             <div class="card shadow-sm border-0 rounded-4">
                 <div class="card-body bg-white text-dark p-4">
                     <h4 class="mb-4 title-color">Auto-bid Settings</h4>
-                    <form action="{{ route('saveSettings') }}" method="POST">
-                        @csrf
-                        @method('PUT')
+                    <form action="<?php echo e(route('saveSettings')); ?>" method="POST">
+                        <?php echo csrf_field(); ?>
+                        <?php echo method_field('PUT'); ?>
 
-                        @if(auth()->user()->auto_bid == null)
+                        <?php if(auth()->user()->auto_bid == null): ?>
                             <div class="form-check form-switch mb-3">
                                 <input class="form-check-input" type="checkbox" id="enable" name="enable_disable">
                                 <label class="form-check-label" for="enable">Enable AutoBid</label>
                             </div>
-                        @else
+                        <?php else: ?>
                             <p class="mb-2">Do you want to disable AutoBid?</p>
                             <hr>
                             <div class="form-check form-switch mb-3">
                                 <input class="form-check-input" type="checkbox" id="disable" name="enable_disable">
                                 <label class="form-check-label" for="disable">Disable AutoBid</label>
                             </div>
-                        @endif
+                        <?php endif; ?>
 
                         <div class="mb-3 autoBidField">
                             <label for="auto_bid" class="form-label">AutoBid Amount</label>
@@ -45,8 +43,9 @@
                                 class="form-control"
                                 id="auto_bid"
                                 name="auto_bid"
-                                {{ auth()->user()->auto_bid == null ? 'disabled' : '' }}
-                                value="{{ auth()->user()->auto_bid }}">
+                                <?php echo e(auth()->user()->auto_bid == null ? 'disabled' : ''); ?>
+
+                                value="<?php echo e(auth()->user()->auto_bid); ?>">
                         </div>
 
                         <div class="text-end">
@@ -64,9 +63,9 @@
             <div class="card shadow-sm border-0 rounded-4">
                 <div class="card-body bg-white text-dark p-4">
                     <h4 class="mb-4 title-color">Edit Profile</h4>
-                    <form action="{{ route('updateProfile') }}" method="POST">
-                        @csrf
-                        @method('PUT')
+                    <form action="<?php echo e(route('updateProfile')); ?>" method="POST">
+                        <?php echo csrf_field(); ?>
+                        <?php echo method_field('PUT'); ?>
 
                         <div class="mb-3">
                             <label for="name" class="form-label">Name</label>
@@ -75,7 +74,7 @@
                                 class="form-control"
                                 id="name"
                                 name="name"
-                                value="{{ auth()->user()->name }}"
+                                value="<?php echo e(auth()->user()->name); ?>"
                                 required>
                         </div>
 
@@ -86,7 +85,7 @@
                                 class="form-control"
                                 id="username"
                                 name="username"
-                                value="{{ auth()->user()->username }}"
+                                value="<?php echo e(auth()->user()->username); ?>"
                                 required>
                         </div>
 
@@ -97,7 +96,7 @@
                                 class="form-control"
                                 id="email"
                                 name="email"
-                                value="{{ auth()->user()->email }}"
+                                value="<?php echo e(auth()->user()->email); ?>"
                                 required>
                         </div>
 
@@ -110,9 +109,9 @@
         </div>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('scripts')
+<?php $__env->startSection('scripts'); ?>
 <script>
     const enable = document.querySelector('#enable');
     const disable = document.querySelector('#disable');
@@ -142,4 +141,6 @@
         });
     }
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\Cricket 24\Bidz\resources\views/settings.blade.php ENDPATH**/ ?>

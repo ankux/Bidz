@@ -1,17 +1,17 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="<?php echo e(str_replace('_', '-', app()->getLocale())); ?>">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="/favicon.png" type="image/svg+xml+png">
 
     <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 
     <title>Bidz</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="<?php echo e(asset('js/app.js')); ?>" defer></script>
 
     <!-- Modern Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,7 +19,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;700;900&display=swap" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="<?php echo e(asset('css/app.css')); ?>" rel="stylesheet">
     
     <style>
         :root {
@@ -181,16 +181,16 @@
 </head>
 <body>
     <div id="app">
-        @if(auth()->user())
+        <?php if(auth()->user()): ?>
         <nav class="navbar navbar-expand-md">
             <div class="container">
                 <div class="navbar-content">
                     <div class="navbar-brand-wrapper">
-                        <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
+                        <a class="navbar-brand d-flex align-items-center" href="<?php echo e(url('/')); ?>">
                             <div class="bidz-brand">Bidz</div>
                         </a>
                         
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="<?php echo e(__('Toggle navigation')); ?>">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <line x1="3" y1="12" x2="21" y2="12"></line>
                                 <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -202,11 +202,11 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <!-- Search Bar -->
                         <div class="search-wrapper">
-                            <form action="{{ route('dashboard') }}" method="GET" id="search-form">
+                            <form action="<?php echo e(route('dashboard')); ?>" method="GET" id="search-form">
                                 <input type="hidden" name="search_term" id="search-term" value="">
-                                @if(isset($_GET['order']))
+                                <?php if(isset($_GET['order'])): ?>
                                     <input type="hidden" name="order" value="<?= $_GET['order'] ?>">
-                                @endif
+                                <?php endif; ?>
                                 <input type="text" class="search-input" id="search-input" name="search" placeholder="Search items...">
                             </form>
                         </div>
@@ -228,23 +228,24 @@
                             </li>
                                 
                                 <!-- Authentication Links -->
-                                @guest
-                                    @if (Route::has('login'))
+                                <?php if(auth()->guard()->guest()): ?>
+                                    <?php if(Route::has('login')): ?>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                            <a class="nav-link" href="<?php echo e(route('login')); ?>"><?php echo e(__('Login')); ?></a>
                                         </li>
-                                    @endif
-                                @else
+                                    <?php endif; ?>
+                                <?php else: ?>
                                     <li class="nav-item dropdown">
                                         <a id="navbarDropdown" class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                             <div class="user-avatar">
-                                                {{ substr(Auth::user()->name, 0, 1) }}
+                                                <?php echo e(substr(Auth::user()->name, 0, 1)); ?>
+
                                             </div>
-                                            <span class="d-none d-md-block">{{ Auth::user()->name }}</span>
+                                            <span class="d-none d-md-block"><?php echo e(Auth::user()->name); ?></span>
                                         </a>
 
                                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                            <a class="dropdown-item" href="{{ route('settings') }}">
+                                            <a class="dropdown-item" href="<?php echo e(route('settings')); ?>">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
                                                     <circle cx="12" cy="12" r="3"></circle>
                                                     <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
@@ -252,32 +253,33 @@
                                                 Settings
                                             </a>
                                             <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                            <a class="dropdown-item" href="<?php echo e(route('logout')); ?>"
                                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
                                                     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
                                                     <polyline points="16 17 21 12 16 7"></polyline>
                                                     <line x1="21" y1="12" x2="9" y2="12"></line>
                                                 </svg>
-                                                {{ __('Logout') }}
+                                                <?php echo e(__('Logout')); ?>
+
                                             </a>
 
-                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                                @csrf
+                                            <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" class="d-none">
+                                                <?php echo csrf_field(); ?>
                                             </form>
                                         </div>
                                     </li>
-                                @endguest
+                                <?php endif; ?>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </nav>
-        @endif
+        <?php endif; ?>
 
         <main class="py-4">
-            @yield('content')
+            <?php echo $__env->yieldContent('content'); ?>
         </main>
     </div>
     <script>
@@ -305,6 +307,6 @@
         // Example: dropdownMenu.innerHTML += '<li><a class="dropdown-item" href="#">New Notification</a></li>';
         });
     </script>
-    @yield('scripts')
+    <?php echo $__env->yieldContent('scripts'); ?>
 </body>
-</html>
+</html><?php /**PATH D:\Cricket 24\Bidz\resources\views/layouts/app.blade.php ENDPATH**/ ?>

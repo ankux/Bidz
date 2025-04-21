@@ -30,6 +30,7 @@ Route::group(['middleware' => 'auth'], function ()
     Route::get('/settings', [SettingController::class, 'index'])->name('settings');
     Route::put('/settings/save', [SettingController::class, 'store'])->name('saveSettings');
     Route::post('auto-bid/{item}', [BidBotController::class, 'store'])->name('autobid');
+    Route::put('/settings/profile', [SettingController::class, 'updateProfile'])->name('updateProfile');
 });
 
 require __DIR__.'/auth.php';

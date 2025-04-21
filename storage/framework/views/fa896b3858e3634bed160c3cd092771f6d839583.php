@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <style>
     body {
         background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
@@ -138,37 +136,67 @@
             <div class="logo-glow"></div>
             <div class="d-flex justify-content-center align-items-center gap-2 mb-1">
                 <h2 class="brand-title mb-0">Bidz</h2>
-                <img src="{{ asset('images/bid.png') }}" alt="logo" width="32" class="ms-1">
+                <img src="<?php echo e(asset('images/bid.png')); ?>" alt="logo" width="32" class="ms-1">
             </div>
             <p class="tagline mt-2">Bet you can.</p>
         </div>
 
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
+        <form method="POST" action="<?php echo e(route('login')); ?>">
+            <?php echo csrf_field(); ?>
 
             <div class="mb-4">
                 <label for="username" class="form-label">Username</label>
                 <input id="username" type="text" 
-                    class="form-control @error('username') is-invalid @enderror" 
-                    name="username" value="{{ old('username') }}" required autofocus 
+                    class="form-control <?php $__errorArgs = ['username'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" 
+                    name="username" value="<?php echo e(old('username')); ?>" required autofocus 
                     placeholder="Enter your username">
-                @error('username')
+                <?php $__errorArgs = ['username'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                     <div class="invalid-feedback">
-                        {{ $message }}
+                        <?php echo e($message); ?>
+
                     </div>
-                @enderror
+                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
             </div>
 
             <div class="mb-4">
                 <label for="password" class="form-label">Password</label>
                 <input id="password" type="password" 
-                    class="form-control @error('password') is-invalid @enderror" 
+                    class="form-control <?php $__errorArgs = ['password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" 
                     name="password" required placeholder="Enter your password">
-                @error('password')
+                <?php $__errorArgs = ['password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                     <div class="invalid-feedback">
-                        {{ $message }}
+                        <?php echo e($message); ?>
+
                     </div>
-                @enderror
+                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
             </div>
 
             <div class="d-grid mb-3">
@@ -176,7 +204,14 @@
                     Sign In
                 </button>
             </div>
+            
+            <div class="text-center">
+                <a href="<?php echo e(route('password.request')); ?>" class="text-decoration-none" style="color: #a5b4fc; font-size: 14px;">
+                    Forgot your password?
+                </a>
+            </div>
         </form>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\Cricket 24\Bidz\resources\views/auth/login.blade.php ENDPATH**/ ?>

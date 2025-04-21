@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <style>
     body {
         background: #f8f9fa;
@@ -306,11 +304,12 @@
 <div class="container page-container">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            @if (session('status'))
+            <?php if(session('status')): ?>
                 <div class="alert alert-success mb-4" role="alert">
-                    {{ session('status') }}
+                    <?php echo e(session('status')); ?>
+
                 </div>
-            @endif
+            <?php endif; ?>
 
             <h1 class="page-title text-center">Discover Auctions</h1>
 
@@ -318,19 +317,20 @@
                 <div class="row sort-container d-flex align-items-center">
                     <div class="col-md-8 sort-text-container">
                         <p class="sort-text">
-                            <i class="bi bi-arrow-{{ request('order') == 'asc' ? 'up' : 'down' }}-circle me-2"></i>
-                            {{ request('order') == 'asc' ? 'Sorted price from lower to higher' : 'Sorted price from higher to lower' }}
+                            <i class="bi bi-arrow-<?php echo e(request('order') == 'asc' ? 'up' : 'down'); ?>-circle me-2"></i>
+                            <?php echo e(request('order') == 'asc' ? 'Sorted price from lower to higher' : 'Sorted price from higher to lower'); ?>
+
                         </p>
                     </div>
                     <div class="col-md-4 btn-filter-container d-flex justify-content-end">
-                        <form action="{{route('dashboard')}}" method="GET">
-                            <input type="hidden" name="order" value="{{ request('order') == 'desc' ? 'asc' : 'desc' }}">
-                            @if(request('page'))
-                                <input type="hidden" name="page" value="{{ request('page') }}">
-                            @endif
-                            @if(request('search_term'))
-                                <input type="hidden" name="search_term" value="{{ request('search_term') }}">
-                            @endif
+                        <form action="<?php echo e(route('dashboard')); ?>" method="GET">
+                            <input type="hidden" name="order" value="<?php echo e(request('order') == 'desc' ? 'asc' : 'desc'); ?>">
+                            <?php if(request('page')): ?>
+                                <input type="hidden" name="page" value="<?php echo e(request('page')); ?>">
+                            <?php endif; ?>
+                            <?php if(request('search_term')): ?>
+                                <input type="hidden" name="search_term" value="<?php echo e(request('search_term')); ?>">
+                            <?php endif; ?>
                             <button class="btn btn-filter" type="submit">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                      class="bi bi-filter me-2" viewBox="0 0 16 16">
@@ -345,18 +345,19 @@
             </div>
 
             <div class="row g-4">
-                @forelse($items as $item)
+                <?php $__empty_1 = true; $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                     <div class="col-md-6 mb-3"><!-- Changed to col-md-6 for 2 cards per row -->
                         <div class="item-card">
-                            <img class="item-thumbnail" src="{{ asset($item->thumbnail) }}" alt="{{ $item->name }}">
+                            <img class="item-thumbnail" src="<?php echo e(asset($item->thumbnail)); ?>" alt="<?php echo e($item->name); ?>">
                             <div class="card-content">
-                                <h5 class="item-title">{{ $item->name }}</h5>
+                                <h5 class="item-title"><?php echo e($item->name); ?></h5>
                                 <div class="item-stats">
                                     <div class="item-stat badge-min-bid">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-rupee" viewBox="0 0 16 16">
   <path d="M4 3.06h2.726c1.22 0 2.12.575 2.325 1.724H4v1.051h5.051C8.855 7.001 8 7.558 6.788 7.558H4v1.317L8.437 14h2.11L6.095 8.884h.855c2.316-.018 3.465-1.476 3.688-3.049H12V4.784h-1.345c-.08-.778-.357-1.335-.793-1.732H12V2H4z"/>
 </svg>
-                                        {{ $item->minimal_bid }}
+                                        <?php echo e($item->minimal_bid); ?>
+
                                     </div>
                                     <div class="item-stat badge-total-bids">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -364,15 +365,15 @@
                                             <path fill-rule="evenodd"
                                                   d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3.854 2.146a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708L2 3.293l1.146-1.147a.5.5 0 0 1 .708 0zm0 4a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708L2 7.293l1.146-1.147a.5.5 0 0 1 .708 0zm0 4a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
                                         </svg>
-                                        {{ $item->bids()->count() }} Bids
+                                        <?php echo e($item->bids()->count()); ?> Bids
                                     </div>
                                 </div>
-                                <a href="{{ route('item.show', ['item' => $item->id]) }}"
+                                <a href="<?php echo e(route('item.show', ['item' => $item->id])); ?>"
                                    class="btn btn-bid-now">Bid Now</a>
                             </div>
                         </div>
                     </div>
-                @empty
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                     <div class="col-12">
                         <div class="empty-state">
                             <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="#fb7185" class="bi bi-search mb-3" viewBox="0 0 16 16">
@@ -382,13 +383,15 @@
                             <p class="text-muted mt-2">Try adjusting your search or filter criteria</p>
                         </div>
                     </div>
-                @endforelse
+                <?php endif; ?>
             </div>
 
             <div class="pagination-container">
-                {{ $items->appends(request()->except('page'))->links() }}
+                <?php echo e($items->appends(request()->except('page'))->links()); ?>
+
             </div>
         </div>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\Cricket 24\Bidz\resources\views/home.blade.php ENDPATH**/ ?>
